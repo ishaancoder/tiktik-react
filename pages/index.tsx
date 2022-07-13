@@ -31,7 +31,7 @@ const Home: NextPage<IProps> = ({videos}) => {
 }
 
 export const getServerSideProps = async () => {
-  const { data } = await axios.get(`${BASE_URL}/api/post`)
+  const { data } = await axios.get(`${BASE_URL}api/post`)
   console.log(data)
     return {
         props: {
