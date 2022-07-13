@@ -33,35 +33,42 @@ const Comments = ({isPostingComment,addComment,setComment,comments,comment}:IPro
       <div className="px-10 pt-4 border-t-2 border-gray-200 bg-[#f8f8f8] border-b-2 lg:pb-0 pb-[100px] ">
         <div className="overflow-scroll lg:h-[475px]">
           {comments?.length ? (
-            comments.map((item,id) => (
-              <>
-                {allUsers.map((user:IUser) => (user._id === item.postedBy._id || item.postedBy._ref) && (
-                  <div className="items-center p-2 " key={id}>
-                    <Link href={`/profile/${user._id}`}>
-                          <div className="flex gap-3 p-2 font-semibold rounded cursor-pointer hover:bg-primary">
-                    <div className="w-8 h-8 ">
-                      <Image className="rounded-full" layout="responsive" src={user.image} width={34} height={34} />
-                    </div>
+          comments?.map((item: IComment, idx: number) => (
+            <>
+              {allUsers?.map(
+                (user: IUser) =>
+                  user._id === (item.postedBy._ref || item.postedBy._id) && (
+                    <div className='items-center p-2 ' key={idx}>
+                      <Link href={`/profile/${user._id}`}>
+                        <div className='flex items-start gap-3'>
+                          <div className='w-12 h-12'>
+                            <Image
+                              width={48}
+                              height={48}
+                              className='rounded-full cursor-pointer'
+                              src={user.image}
+                              alt='user-profile'
+                              layout='responsive'
+                            />
+                          </div>
 
-                    <div className="hidden xl:block">
-                        <p className="flex items-center gap-1 text-md text-primary lower">
-                          {user.userName.replaceAll(" ", "").toLowerCase()}
-                          <GoVerified className="text-blue-400"></GoVerified>
+                          <p className='flex cursor-pointer gap-1 items-center text-[18px] font-bold leading-6 text-primary'>
+                            {user.userName}{' '}
+                            <GoVerified className='text-blue-400' />
+                          </p>
+                        </div>
+                      </Link>
+                      <div>
+                        <p className='-mt-5 ml-16 text-[16px] mr-8'>
+                          {item.comment}
                         </p>
-                        <p className="text-gray-400 capitalize">
-                          {user.userName}
-                        </p>
+                      </div>
                     </div>
-                  </div>
-                    </Link>
-                    <div className="flex ml-10">
-                    <p>{item.comment}</p>
-                    </div>
-                  </div>
-                ))}
-              </>
-            ))
-          ) : (
+                  )
+              )}
+            </>
+          ))
+        ) : (
             <NoResults text="No comments yet!" />
           )}
         </div>
