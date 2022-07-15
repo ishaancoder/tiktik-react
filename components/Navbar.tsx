@@ -12,7 +12,16 @@ import { createOrGetUser } from "../utils";
 import useAuthStore from "../store/authStore";
 
 const Navbar = () => {
+  const [search, setSearch] = useState('')
   const { userProfile, addUser,removeUser } : {userProfile:any, addUser:any, removeUser:any} = useAuthStore();
+  const router = useRouter()
+  const handleSearch = (e:{ preventDefault:() => void }) => {
+    e.preventDefault()
+        
+    if(search) {
+      router.push(`/search/${search}`)
+    }
+  }
 
   return (
     <div className="flex items-center justify-between w-full px-4 py-2 border-b-2 border-gray-200">
@@ -25,13 +34,21 @@ const Navbar = () => {
           ></Image>
         </div>
       </Link>
-{/* 
+
       <div className="relative hidden md:block ">
-        <form onSubmit={handleSearch} className="absolute ">
-          
-          
+        <form onSubmit={handleSearch} className="absolute bg-white md:static top-10 -left-10 ">
+          <input 
+            type="text" 
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search Your Videos"
+            className="p-3 font-medium border-2 border-gray-100 bg-primary md:text-md focus:outline-none focus:border-2 focus:border-gray-300 w-[300px] md:w-[350px] rounded-full md:top-0 "
+          />
+          <button>
+            <BiSearch onClick={handleSearch} className="absolute pl-4 text-4xl text-gray-400 border-l-2 border-gray-300 top-1.5 md:right-5 right-6" />
+          </button>
         </form>
-      </div> */}
+      </div>
 
       <div className="">
         {userProfile ? (

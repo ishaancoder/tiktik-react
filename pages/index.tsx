@@ -9,7 +9,6 @@ import { Video } from '../types'
 
 
 import { BASE_URL } from '../utils'
-import { useEffect } from 'react'
 import VideoCard from '../components/VideoCard'
 import NoResults from '../components/NoResults'
 
@@ -30,12 +29,23 @@ const Home: NextPage<IProps> = ({videos}) => {
   )
 }
 
-export const getServerSideProps = async () => {
-  const { data } = await axios.get(`${BASE_URL}/api/post`)
-  console.log(data)
+export const getServerSideProps = async ({
+  query:{ topic }
+}:{
+  query:{ topic:string}
+}) => {
+  let dataToSend;
+  if(topic) {
+    const { data } = await axios.get(`${BASE_URL}/api/post`)
+    dataToSend = data
+
+  } else {
+    let { data } = await axios.get(`${BASE_URL}/api/post`)
+    dataToSend = data
+  }
     return {
         props: {
-          videos:data
+          videos:dataToSend
         }
     }
 }
