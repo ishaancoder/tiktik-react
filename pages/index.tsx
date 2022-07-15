@@ -36,7 +36,7 @@ export const getServerSideProps = async ({
 }) => {
   let dataToSend;
   if(topic) {
-    const { data } = await axios.get(`${BASE_URL}/api/post`)
+    const { data } = await axios.get(`${BASE_URL}/api/discover/${topic}`)
     dataToSend = data
 
   } else {

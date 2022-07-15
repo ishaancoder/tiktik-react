@@ -1,15 +1,20 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { client } from '../../../utils/client'
 import { topicPostsQuery } from '../../../utils/queries'
 
 type Data = {
   name: string
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-    
-  res.status(200).json({ name: 'John Doe' })
+  if(req.method === 'GET') {
+      const { topic } = req.query
+      const topicSearch = topicPostsQuery(topic)
+      const topics = await client.fetch(topicSearch)
+      res.status(200).json(topics)
+  }
 }
